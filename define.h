@@ -5,36 +5,31 @@
 namespace Tetris
 {
 
-namespace BoxColor
-{
-enum Color
+enum class BoxColor
 {
     None = 0,
-    Square = 1,//Õı·½ĞÎ
-    Four,//ËÄµã,ÌõĞÎ
-    Seven,//7ĞÎ×´
-    SevenReverse,//·´7
-    Z,//ZĞÎ
-    ZReverse,//·´Z
-    Convex,//Í¹ĞÎ
+    Square = 1,//æ­£æ–¹å½¢
+    Four,//å››ç‚¹,æ¡å½¢
+    Seven,//7å½¢çŠ¶
+    SevenReverse,//å7
+    Z,//Zå½¢
+    ZReverse,//åZ
+    Convex,//å‡¸å½¢
     RegularNum = Convex,
-    Cross, //Ê®×Ö
-    One,//Ò»µã,ÓÃÓÚ³ÔµôÓöµ½µÄµÚÒ»¸övalue
-    //Two,//Á½µã
-    Three,//Èıµã
-    Five,//Îåµã
+    Cross, //åå­—
+    One,//ä¸€ç‚¹,ç”¨äºåƒæ‰é‡åˆ°çš„ç¬¬ä¸€ä¸ªvalue
+    //Two,//ä¸¤ç‚¹
+    Three,//ä¸‰ç‚¹
+    Five,//äº”ç‚¹
     BoxNum = Five,
-    Bomb_one,//Ò»¸öµãÕ¨µ¯
+    Bomb_one,//ä¸€ä¸ªç‚¹ç‚¸å¼¹
 };
-}
 
-namespace ClockDirection
-{
-enum Direction
+enum class ClockDirection
 {
     ClockWise,
     AntiClock,
 };
-}
+
 }
 #endif//DEFINE_H

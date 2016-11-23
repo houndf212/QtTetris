@@ -12,7 +12,7 @@ struct Dot
     Dot(int m, int n);
     Dot& operator+=(const Dot& p);
     Dot& operator-=(const Dot& p);
-    const Dot rotate(const Dot& center, ClockDirection::Direction clock = ClockDirection::ClockWise) const;
+    Dot rotate(const Dot& center, ClockDirection clock) const;
 };
 namespace MoveDirection
 {

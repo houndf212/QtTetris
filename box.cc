@@ -2,15 +2,6 @@
 #include "tetrisgroup.h"
 namespace Tetris
 {
-void copy_dot(Dot* to, const Dot* from, const Dot* end)
-{
-    assert(end - from >= 0);
-
-    while(from != end)
-    {
-        *to++ = *from++;
-    }
-}
 
 bool Box::move(const TetrisGroup& t, Dot dirction)
 {
@@ -30,6 +21,15 @@ bool Box::move(const TetrisGroup& t, Dot dirction)
     return true;
 }
 
+void Box::init_move(Dot d)
+{
+    assert(get_size()<max_size);
+    for (Dot* p = begin(); p != end(); ++p)
+    {
+        *p += d;
+    }
+}
+
 void Box::at_bottom(TetrisGroup* t) const
 {
     for (const Dot* p = begin(); p != end(); ++p)
@@ -39,7 +39,7 @@ void Box::at_bottom(TetrisGroup* t) const
     }
 }
 
-bool Box::rotate(const TetrisGroup& t, Dot center, ClockDirection::Direction d)
+bool Box::rotate(const TetrisGroup& t, Dot center, ClockDirection d)
 {
     const int max_size = 8;
     assert(end() - begin() < max_size);
@@ -55,7 +55,7 @@ bool Box::rotate(const TetrisGroup& t, Dot center, ClockDirection::Direction d)
         { return false; }
     }
 
-    //Ðý×ªºóµÄÎ»ÖÃ¿ÉÈ¡£¬È»ºó¸³Öµ
+    //æ—‹è½¬åŽçš„ä½ç½®å¯å–ï¼Œç„¶åŽèµ‹å€¼
 
     for (Dot* p = begin(), *q = tmp; p != end(); )
     {

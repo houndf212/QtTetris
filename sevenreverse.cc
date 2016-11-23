@@ -4,10 +4,10 @@
 namespace Tetris
 {
 /*********************************
-  //Ñ¡È¡ 1 »òÕß 2ÎªÐý×ªµã£¬ Ê×Ñ¡2
-  Ñ¡È¡  2ÎªÐý×ªµã
-  status 0 ×Ý
-  status 1 ºá
+  //é€‰å– 1 æˆ–è€… 2ä¸ºæ—‹è½¬ç‚¹ï¼Œ é¦–é€‰2
+  é€‰å–  2ä¸ºæ—‹è½¬ç‚¹
+  status 0 çºµ
+  status 1 æ¨ª
 ###########
 #----10----
 #    2
@@ -17,14 +17,13 @@ namespace Tetris
 #
 *********************************/
 
-SevenReverse::SevenReverse(int xstart, int status,  BoxColor::Color col)
-    : Box(col)
+SevenReverse::SevenReverse(int status)
 {
     assert(status == 0);
 
     if (status == 0)
     {
-        location[0] = Dot(xstart + 1, 0);
+        location[0] = Dot(0 + 1, 0);
 
         location[1] = location[0] + MoveDirection::Left;
 
@@ -39,34 +38,11 @@ SevenReverse::SevenReverse(int xstart, int status,  BoxColor::Color col)
     }
 }
 
-bool SevenReverse::turn(const TetrisGroup& t, ClockDirection::Direction d)
+bool SevenReverse::turn(const TetrisGroup& t, ClockDirection d)
 {
-    bool b1 = rotate(t, location[2], d);
-
-    if (b1)
-    { return true; }
-
-    bool b2 = rotate(t, location[1], d);
-
-    if (b2)
-    { return true; }
-
-    bool b3 = rotate(t, location[3], d);
-
-    if (b3)
-    { return true; }
-
-    return false;
-}
-
-SevenReverse* SevenReverse::CloneTo(void* area) const
-{
-    assert(area != 0);
-    SevenReverse* newsevenr = new(area) SevenReverse(get_color());
-
-    copy_dot(newsevenr->location, location, location + size);
-
-    return newsevenr;
+    return rotate(t, location[2], d) ||
+            rotate(t, location[1], d) ||
+            rotate(t, location[3], d);
 }
 
 }

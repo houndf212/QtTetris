@@ -3,10 +3,10 @@
 namespace Tetris
 {
 /*********************************
-  //Ñ¡È¡ 1 »òÕß 2ÎªÐý×ªµã£¬ Ê×Ñ¡2
-  Ñ¡È¡  2ÎªÐý×ªµã
-  status 0 ×Ý
-  status 1 ºá
+  //é€‰å– 1 æˆ–è€… 2ä¸ºæ—‹è½¬ç‚¹ï¼Œ é¦–é€‰2
+  é€‰å–  2ä¸ºæ—‹è½¬ç‚¹
+  status 0 çºµ
+  status 1 æ¨ª
 ###########
 #---01-----
 #    2
@@ -16,14 +16,13 @@ namespace Tetris
 #
 *********************************/
 
-Seven::Seven(int xstart, int status,  BoxColor::Color col)
-    : Box(col)
+Seven::Seven(int status)
 {
     assert(status == 0);
 
     if (status == 0)
     {
-        location[0] = Dot(xstart, 0);
+        location[0] = Dot(0, 0);
 
         location[1] = location[0] + MoveDirection::Right;
 
@@ -38,29 +37,9 @@ Seven::Seven(int xstart, int status,  BoxColor::Color col)
     }
 }
 
-bool Seven::turn(const TetrisGroup& t, ClockDirection::Direction d)
+bool Seven::turn(const TetrisGroup& t, ClockDirection d)
 {
-    bool b1 = rotate(t, location[2], d);
-
-    if (b1)
-    { return true; }
-
-    bool b2 = rotate(t, location[1], d);
-
-    if (b2)
-    { return true; }
-
-    return false;
-}
-
-Seven* Seven::CloneTo(void* area) const
-{
-    assert(area != 0);
-    Seven* newseven = new(area) Seven(get_color());
-
-    copy_dot(newseven->location, location, location + size);
-
-    return newseven;
+    return rotate(t, location[2], d) || rotate(t, location[1], d);
 }
 
 }

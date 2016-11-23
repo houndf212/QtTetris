@@ -3,10 +3,10 @@
 namespace Tetris
 {
 /*********************************
-Ñ¡È¡ 1 »òÕß 2ÎªÐý×ªµã£¬ Ê×Ñ¡1
+é€‰å– 1 æˆ–è€… 2ä¸ºæ—‹è½¬ç‚¹ï¼Œ é¦–é€‰1
 
-status 0 ×Ý
-status 1 ºá
+status 0 çºµ
+status 1 æ¨ª
 ###########
 #----0-----
 #    12
@@ -16,14 +16,13 @@ status 1 ºá
 #
 *********************************/
 
-ZReverse::ZReverse(int xstart, int status,  BoxColor::Color col)
-    : Box(col)
+ZReverse::ZReverse(int status)
 {
     assert(status == 0);
 
     if (status == 0)
     {
-        location[0] = Dot(xstart, 0);
+        location[0] = Dot(0, 0);
 
         location[1] = location[0] + MoveDirection::Down;
 
@@ -38,29 +37,9 @@ ZReverse::ZReverse(int xstart, int status,  BoxColor::Color col)
     }
 }
 
-bool ZReverse::turn(const TetrisGroup& t, ClockDirection::Direction d)
+bool ZReverse::turn(const TetrisGroup& t, ClockDirection d)
 {
-    bool b1 = rotate(t, location[1], d);
-
-    if (b1)
-    { return true; }
-
-    bool b2 = rotate(t, location[2], d);
-
-    if(b2)
-    { return true; }
-
-    return false;
-}
-
-ZReverse* ZReverse::CloneTo(void* area) const
-{
-    assert(area != 0);
-    ZReverse* newzr = new(area) ZReverse(get_color());
-
-    copy_dot(newzr->location, location, location + size);
-
-    return newzr;
+    return rotate(t, location[1], d) || rotate(t, location[2], d);
 }
 
 }

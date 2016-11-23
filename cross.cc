@@ -10,10 +10,9 @@ namespace Tetris
 #
 #
 *********************************/
-Cross::Cross(int xstart, BoxColor::Color col)
-    : Box(col)
+Cross::Cross()
 {
-    location[0] = Dot(xstart, 0);
+    location[0] = Dot(0, 0);
 
     location[2] = location[0] + MoveDirection::Down;
 
@@ -25,13 +24,4 @@ Cross::Cross(int xstart, BoxColor::Color col)
 
 }
 
-Cross* Cross::CloneTo(void* area) const
-{
-    assert(area != 0);
-    Cross* newcorss = new(area) Cross(this->get_color());
-
-    copy_dot(newcorss->location, location, location + size);
-
-    return newcorss;
-}
 }

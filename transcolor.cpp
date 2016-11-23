@@ -1,7 +1,7 @@
 #include <QColor>
 #include "define.h"
 
-QColor trans_color(Tetris::BoxColor::Color color)
+QColor trans_color(Tetris::BoxColor color)
 {
     QColor col;
 

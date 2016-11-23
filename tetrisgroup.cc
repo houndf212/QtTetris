@@ -6,17 +6,8 @@ namespace Tetris
 TetrisGroup::TetrisGroup(int width, int height)
     : my_width(width),
       my_height(height),
-      cur_box(0),
-      next_box(0),
       clock(ClockDirection::ClockWise)
 {
-    cur_area = static_cast<char*>(malloc(area_size));
-    assert(cur_area != NULL);
-    next_area = static_cast<char*>(malloc(area_size));
-    assert(next_area != NULL);
-    cur_area[area_size - 1] = 0;
-    next_area[area_size - 1] = 0;
-
     init();
 }
 void TetrisGroup::init_matrix(int width, int height)
@@ -28,32 +19,6 @@ void TetrisGroup::init_matrix(int width, int height)
 
     vector<int> vec_col(height, int(BoxColor::None));
     matrix[color_pos] = vector< vector<int> >(width, vec_col);
-}
-TetrisGroup::~TetrisGroup()
-{
-    //    if (cur_box != 0)
-    //    { cur_box->~Box(); }
-
-    //    free(cur_area);
-
-    //    if (next_box != 0)
-    //    { next_box->~Box(); }
-
-    //    free(next_area);
-    //ÒÔÇ°ÓÃÁË¡°´ÏÃ÷¡±µÄ·½·¨£¬ÓÃÖ¸ÕëÀ´½»»»Ö¸ÏòÃ»ÓÐ¹¹ÔìµÄarea£¬
-    //µ«ÊÇÎö¹¹µÄÊ±ºò£¬¿ÉÄÜcurboxÖ¸ÏòµÄÊÇnext_area
-    //ËùÒÔÔÚµ÷ÓÃµÚ¶þ´ÎÎö¹¹µÄÊ±ºò¾Í³ö´íÁË
-
-    if (cur_box != 0)
-    { cur_box->~Box(); }
-
-    if (next_box != 0)
-    { next_box->~Box(); }
-
-    // »ØÊÕ·ÅºóÃæ
-    free(cur_area);
-    free(next_area);
-
 }
 
 bool TetrisGroup::turn()
@@ -77,22 +42,15 @@ void TetrisGroup::init()
     alive = true;
     init_matrix(my_width, my_height);
 
-    if (cur_box != 0)
-    { cur_box->~Box(); }
-
-    if (next_box != 0)
-    { next_box->~Box(); }
-
-    cur_box = get_rand_box((get_width() - 1) / 2, cur_area);
-    next_box = get_rand_box((get_width() - 1) / 2, next_area);
-    free_area = 0;
+    cur_box.reset( get_rand_box((get_width() - 1) / 2) );
+    next_box.reset( get_rand_box((get_width() - 1) / 2) );
 }
 
 bool TetrisGroup::is_linefull(int y) const
 {
     for (int x = 0; x != get_width(); ++x)
     {
-        if (get_matrix_value(x, y) == NoValue)
+        if (get_matrix_value(Dot(x, y)) == NoValue)
         { return false; }
     }
 
@@ -105,16 +63,17 @@ void TetrisGroup::drop_oneline(int y)
     {
         for (int x = 0; x != get_width(); ++x)
         {
-            set_matrix_value(x, y , get_matrix_value(x, y - 1));
-            set_matrix_color(x, y, get_matrix_color(x, y - 1));
+            set_matrix_value(Dot(x, y) , get_matrix_value(Dot(x, y - 1)));
+            set_matrix_color(Dot(x, y), get_matrix_color(Dot(x, y - 1)));
         }
     }
 
-    //³õÊ¼»¯×îÉÏÃæÒ»ÐÐ
+    //åˆå§‹åŒ–æœ€ä¸Šé¢ä¸€è¡Œ
     for (int x = 0; x != get_width(); ++x)
     {
-        clear_matrix_value(x, 0);
-        clear_matrix_color(x, 0);
+        Dot d(x, 0);
+        clear_matrix_value(d);
+        clear_matrix_color(d);
     }
 }
 int TetrisGroup::drop_lines()
@@ -123,33 +82,17 @@ int TetrisGroup::drop_lines()
 
     for (int y = get_height() - 1; y >= 0;)
     {
-        if (is_linefull(y)) //Èç¹ûÂúÐÐ£¬¼ÌÐøÅÐ¶Ï¸ÃÐÐ
+        if (is_linefull(y)) //å¦‚æžœæ»¡è¡Œï¼Œç»§ç»­åˆ¤æ–­è¯¥è¡Œ
         {
             drop_oneline(y);
             ++dropnum;
         }
-        else //Èç¹û´ËÐÐ²»ÏûÈ¥£¬Ôò¼ÌÐøÏòÉÏÃæÉ¨Ãè
+        else //å¦‚æžœæ­¤è¡Œä¸æ¶ˆåŽ»ï¼Œåˆ™ç»§ç»­å‘ä¸Šé¢æ‰«æ
         { --y; }
 
     }
 
     return dropnum;
-}
-
-void TetrisGroup::swap_cur_next()
-{
-    //    cur_box->~Box();
-    //    cur_box = next_box->CloneTo(cur_area);
-
-    //    next_box->~Box();
-    //    next_box = get_rand_box((get_width() - 1) / 2, next_area);
-    //ÓÃÏÂÃæµÄ·½·¨¿ÉÒÔÉÙÒ»°ëÎö¹¹µ÷ÓÃ
-    cur_box->~Box();
-    free_area = reinterpret_cast<char*>(cur_box);
-    assert(free_area == cur_area || free_area == next_area);
-
-    cur_box = next_box;
-    next_box = get_rand_box((get_width() - 1) / 2, free_area);
 }
 
 bool TetrisGroup::down(int* lines)
@@ -163,10 +106,12 @@ bool TetrisGroup::down(int* lines)
     { return true; }
 
     //else
-    //ÏòÏÂÊ§°Ü£¬Ôò¸ù¾ÝboxÀàÐÍ·ÅÖÃÓÚgroupÄÚ²¿
+    //å‘ä¸‹å¤±è´¥ï¼Œåˆ™æ ¹æ®boxç±»åž‹æ”¾ç½®äºŽgroupå†…éƒ¨
     cur_box->at_bottom(this);
     *lines = drop_lines();
-    swap_cur_next();
+
+    cur_box.swap(next_box);
+    next_box.reset( get_rand_box((get_width() - 1) / 2) );
 
     if (cur_box->at_new_check(*this))
     { return true; }

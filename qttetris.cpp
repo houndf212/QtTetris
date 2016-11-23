@@ -9,7 +9,7 @@
 #include "qttetris.h"
 #include "box.h"
 
-extern QColor trans_color(Tetris::BoxColor::Color color);
+extern QColor trans_color(Tetris::BoxColor color);
 
 QtTetris::QtTetris(QWidget* parent)
     : QWidget(parent),
@@ -32,7 +32,7 @@ QtTetris::QtTetris(QWidget* parent)
 
     QIcon icon(":/png/icon.png");
     setWindowIcon(icon);
-    //±³¾°É«
+    //èƒŒæ™¯è‰²
     //QPalette palette;
     //palette.setColor(QPalette::Background, Qt::cyan);
     //palette.setBrush(QPalette::Background, QBrush(QPixmap(":/background.png")));

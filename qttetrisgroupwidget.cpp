@@ -5,7 +5,7 @@
 #include "box.h"
 #include "dot.h"
 
-extern QColor trans_color(Tetris::BoxColor::Color color);
+extern QColor trans_color(Tetris::BoxColor color);
 
 QtTetrisGroupWidget::QtTetrisGroupWidget(const Tetris::TetrisGroup& g, QWidget* parent) :
     QWidget(parent),
@@ -60,10 +60,11 @@ void QtTetrisGroupWidget::draw_group(QPainter* p)
     {
         for (int y = 0; y != group.get_height(); ++y)
         {
-            if (Tetris::BoxColor::None == group(x, y))
+            Tetris::Dot d(x, y);
+            if (Tetris::BoxColor::None == group.get_matrix_color(d))
             { continue; }
 
-            draw_oneblock(p, Tetris::Dot(x, y), trans_color(group(x, y)));
+            draw_oneblock(p, Tetris::Dot(x, y), trans_color(group.get_matrix_color(d)));
         }
     }
 }

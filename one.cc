@@ -11,11 +11,10 @@ namespace Tetris
 #
 #
 *********************************/
-One::One(int xstart, BoxColor::Color col)
-    : Box(col),
-      is_reach(false)
+One::One()
+    :is_reach(false)
 {
-    location[0] = Dot(xstart, 0);
+    location[0] = Dot(0, 0);
 }
 
 bool One::move(const TetrisGroup& t, Dot dirction)
@@ -49,17 +48,5 @@ bool One::at_new_check(const TetrisGroup& t) /*const*/
     return true;
 }
 
-One* One::CloneTo(void* area) const
-{
-    assert(area != 0);
-    One* newone = new(area) One(this->get_color());
-
-    //for speed, use bits copy, but something is wrong = =!
-    //strncpy(reinterpret_cast<char*>(p->location), reinterpret_cast<const char*>(this->location), sizeof(this->location));
-    copy_dot(newone->location, location, location + size);
-    newone->is_reach = is_reach;
-
-    return newone;
-}
 }
 

@@ -8,6 +8,7 @@ QT       += core gui widgets
 
 TARGET = QtTetris
 TEMPLATE = app
+QMAKE_CXXFLAGS += -Wno-unused-parameter
 
 SOURCES += main.cpp\
     qttetris.cpp \

@@ -3,9 +3,9 @@
 namespace Tetris
 {
 /*********************************
-  Ñ¡È¡  1 2 3 ÎªÐý×ªµã£¬ Ê×Ñ¡2
-  status 0 ×Ý
-  status 1 ºá
+  é€‰å–  1 2 3 ä¸ºæ—‹è½¬ç‚¹ï¼Œ é¦–é€‰2
+  status 0 çºµ
+  status 1 æ¨ª
 ##########
 #    0
 #    1
@@ -17,14 +17,13 @@ namespace Tetris
 #
 *********************************/
 
-Five::Five(int xstart, int status,  BoxColor::Color col)
-    : Box(col)
+Five::Five(int status)
 {
     assert(status == 0 || status == 1);
 
     if (status == 0)
     {
-        location[0] = Dot(xstart, 0);
+        location[0] = Dot(0, 0);
 
         location[1] = location[0] + MoveDirection::Down;
 
@@ -42,33 +41,11 @@ Five::Five(int xstart, int status,  BoxColor::Color col)
     }
 }
 
-bool Five::turn(const TetrisGroup& t, ClockDirection::Direction d)
+bool Five::turn(const TetrisGroup& t, ClockDirection d)
 {
-    bool b1 = rotate(t, location[2], d);
-
-    if (b1)
-    { return true; }
-
-    bool b2 = rotate(t, location[1], d);
-
-    if(b2)
-    { return true; }
-
-    bool b3 = rotate(t, location[3], d);
-
-    if(b3)
-    { return true; }
-
-    return false;
-}
-
-Five* Five::CloneTo(void* area) const
-{
-    Five* newfive = new(area) Five(get_color());
-
-    copy_dot(newfive->location, location, location + size);
-
-    return newfive;
+    return rotate(t, location[2], d) ||
+            rotate(t, location[1], d) ||
+            rotate(t, location[3], d);
 }
 
 }

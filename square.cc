@@ -10,10 +10,9 @@ namespace Tetris
 #
 #
 *********************************/
-Square::Square(int xstart, BoxColor::Color col)
-    : Box(col)
+Square::Square()
 {
-    location[0] = Dot(xstart, 0);
+    location[0] = Dot(0, 0);
 
     location[1] = location[0] + MoveDirection::Right;
 
@@ -23,15 +22,4 @@ Square::Square(int xstart, BoxColor::Color col)
 
 }
 
-Square* Square::CloneTo(void* area) const
-{
-    assert(area != 0);
-    Square* newsquare = new(area) Square(this->get_color());
-
-    //for speed, use bits copy, but something is wrong = =!
-    //strncpy(reinterpret_cast<char*>(p->location), reinterpret_cast<const char*>(this->location), sizeof(this->location));
-    copy_dot(newsquare->location, location, location + size);
-
-    return newsquare;
-}
 }

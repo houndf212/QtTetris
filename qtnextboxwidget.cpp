@@ -2,7 +2,7 @@
 #include "box.h"
 #include "qtnextboxwidget.h"
 
-extern QColor trans_color(Tetris::BoxColor::Color color);
+extern QColor trans_color(Tetris::BoxColor color);
 
 QtNextBoxWidget::QtNextBoxWidget(const Tetris::TetrisGroup& g, QWidget* parent) :
     QWidget(parent),
@@ -22,7 +22,7 @@ void QtNextBoxWidget::draw_nextbox(QPainter* painter)
     const Tetris::Box* box = group.get_next_box();
     // because of Koening , so "Tetris::" do not needed
     Tetris::Dot d = /*Tetris::*/find_most_left(box);
-    //ÕâÀï¸³Öµ0ÊÇºÜÓĞµÀÀíµÄ£¬ÒòÎªÖ»ĞèÒª×óÒÆ¶¯£¬²»ĞèÒªÏÂÒÆ¶¯
+    //è¿™é‡Œèµ‹å€¼0æ˜¯å¾ˆæœ‰é“ç†çš„ï¼Œå› ä¸ºåªéœ€è¦å·¦ç§»åŠ¨ï¼Œä¸éœ€è¦ä¸‹ç§»åŠ¨
     d.y = 0;
 
     for (const Tetris::Dot* p = box->begin(); p != box->end(); ++p)

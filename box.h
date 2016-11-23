@@ -2,39 +2,50 @@
 #define BOX_H
 #include "define.h"
 #include "dot.h"
+#include <memory>
 
 namespace Tetris
 {
 
-void copy_dot(Dot* to, const Dot* from, const Dot* end);
-//Ç°ÖÃÉêÃ÷£¬½â¾öÑ­»·ÒÀÀµ
+//å‰ç½®ç”³æ˜ï¼Œè§£å†³å¾ªç¯ä¾èµ–
 class TetrisGroup;
 class Box;
-Box* get_rand_box(int xstart, char* area);
+
+Box* get_rand_box(int xstart);
+
 class Box
 {
-    friend Box* get_rand_box(int xstart, char* area);
 public:
     virtual ~Box() {}
-    virtual const Dot* begin()const = 0;
-    virtual const Dot* end()const = 0;
-    BoxColor::Color get_color() const { return color;}
-    virtual Box* CloneTo(void* area) const = 0;
-    virtual bool turn(const TetrisGroup& t, ClockDirection::Direction d) = 0;
+    const Dot* begin()const { return location; }
+    const Dot* end()const  { return location + get_size(); }
+    BoxColor get_color() const { return color; }
+    void set_color(BoxColor c) { color = c; }
+
+    virtual bool turn(const TetrisGroup& t, ClockDirection d) = 0;
     virtual bool move(const TetrisGroup& t, Dot dirction);
-    //µ±box²»ÄÜdownÊ±µ÷ÓÃ£¬ĞŞ¸ÄgroupÖĞ¾ØÕóÖµ£¬ÉèÎªĞéº¯ÊıµÄÔ­ÒòÊÇ£¬¿ÉÄÜ´æÔÚ ¡®Õ¨µ¯¡¯ÕâÖÖbox
+    void init_move(Dot d);
+    //å½“boxä¸èƒ½downæ—¶è°ƒç”¨ï¼Œä¿®æ”¹groupä¸­çŸ©é˜µå€¼ï¼Œè®¾ä¸ºè™šå‡½æ•°çš„åŸå› æ˜¯ï¼Œå¯èƒ½å­˜åœ¨ â€˜ç‚¸å¼¹â€™è¿™ç§box
     virtual void at_bottom(TetrisGroup* t) const;
-    //ÓÃÓÚĞÂ²úÉúµÄÊ±ºòÊÇ·ñÅĞ¶¨ÓÎÏ·½áÊø
+    //ç”¨äºæ–°äº§ç”Ÿçš„æ—¶å€™æ˜¯å¦åˆ¤å®šæ¸¸æˆç»“æŸ
     virtual bool at_new_check(const TetrisGroup& t) /*const*/;
 protected:
+    bool rotate(const TetrisGroup& t, Dot center, ClockDirection d);
+    Dot* begin() { return location; }
+    Box(): color(BoxColor::Square) {}
+
+protected:
+//    std::unique_ptr<Dot[], std::default_delete<Dot[]>> location;
+    constexpr static int max_size = 8;
+    Dot location[max_size];
+private:
+    BoxColor color;
+    virtual int get_size() const = 0;
+private:
     Box(const Box&);
     Box& operator=(const Box&);
-    virtual bool rotate(const TetrisGroup& t, Dot center, ClockDirection::Direction d);
-    virtual Dot* begin() = 0;
-    explicit Box(BoxColor::Color col): color(col) {}
-    BoxColor::Color color;
 };
-//·ÇÄÚÖÃÀàĞÍ£¬·µ»Øconst
+//éå†…ç½®ç±»å‹ï¼Œè¿”å›const
 const Dot find_most_left(const Box* box);
 }
 #endif//BOX_H

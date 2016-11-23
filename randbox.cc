@@ -18,79 +18,143 @@
 namespace Tetris
 {
 
-Box* get_rand_box(int xstart, char* area)
-{
-    assert(area != 0);
-    const unsigned int area_size = TetrisGroup::area_size;
-    assert(area_size > sizeof(Square));
-    assert(area_size > sizeof(Four));
-    assert(area_size > sizeof(Seven));
-    assert(area_size > sizeof(SevenReverse));
-    assert(area_size > sizeof(Z));
-    assert(area_size > sizeof(ZReverse));
-    assert(area_size > sizeof(Convex));
-    assert(area_size > sizeof(One));
-    assert(area_size > sizeof(Five));
-    assert(area_size > sizeof(Three));
-    assert(area_size > sizeof(Cross));
+//Box* get_rand_box(int xstart, char* area)
+//{
+//    assert(area != 0);
+//    const unsigned int area_size = TetrisGroup::area_size;
+//    assert(area_size > sizeof(Square));
+//    assert(area_size > sizeof(Four));
+//    assert(area_size > sizeof(Seven));
+//    assert(area_size > sizeof(SevenReverse));
+//    assert(area_size > sizeof(Z));
+//    assert(area_size > sizeof(ZReverse));
+//    assert(area_size > sizeof(Convex));
+//    assert(area_size > sizeof(One));
+//    assert(area_size > sizeof(Five));
+//    assert(area_size > sizeof(Three));
+//    assert(area_size > sizeof(Cross));
 
-    int r = std::rand() % BoxColor::BoxNum;
+//    int r = std::rand() % BoxColor::BoxNum;
+//    r += 1;
+//    assert(0 < r && r <= BoxColor::BoxNum);
+//    BoxColor::Color c = BoxColor::Color(r);
+//    Box* box;
+
+//    switch (c)
+//    {
+//    case BoxColor::Square:
+//        box = new(area) Square(xstart);
+//        break;
+
+//    case BoxColor::Four:
+//        box = new(area) Four(xstart);
+//        break;
+
+//    case BoxColor::Seven:
+//        box = new(area) Seven(xstart);
+//        break;
+
+//    case BoxColor::SevenReverse:
+//        box = new(area) SevenReverse(xstart);
+//        break;
+
+//    case BoxColor::Z:
+//        box = new(area) Z(xstart);
+//        break;
+
+//    case BoxColor::ZReverse:
+//        box = new(area) ZReverse(xstart);
+//        break;
+
+//    case BoxColor::Convex:
+//        box = new(area) Convex(xstart);
+//        break;
+
+//    case BoxColor::One:
+//        box = new(area) One(xstart);
+//        break;
+
+//    case BoxColor::Five:
+//        box = new(area) Five(xstart);
+//        break;
+
+//    case BoxColor::Three:
+//        box = new(area) Three(xstart);
+//        break;
+
+//    case BoxColor::Cross:
+//        box = new(area) Cross(xstart);
+//        break;
+
+//    default:
+//        box = new(area) Cross(xstart);
+//        break;
+//    }
+
+//    return box;
+//}
+
+Box* get_rand_box(int xstart)
+{
+    int r = std::rand() % int(BoxColor::BoxNum);
     r += 1;
-    assert(0 < r && r <= BoxColor::BoxNum);
-    BoxColor::Color c = BoxColor::Color(r);
+    assert(0 < r && r <= int(BoxColor::BoxNum));
+    BoxColor c = BoxColor(r);
     Box* box;
 
     switch (c)
     {
     case BoxColor::Square:
-        box = new(area) Square(xstart);
+        box = new Square();
         break;
 
     case BoxColor::Four:
-        box = new(area) Four(xstart);
+        box = new Four();
         break;
 
     case BoxColor::Seven:
-        box = new(area) Seven(xstart);
+        box = new Seven();
         break;
 
     case BoxColor::SevenReverse:
-        box = new(area) SevenReverse(xstart);
+        box = new SevenReverse();
         break;
 
     case BoxColor::Z:
-        box = new(area) Z(xstart);
+        box = new Z();
         break;
 
     case BoxColor::ZReverse:
-        box = new(area) ZReverse(xstart);
+        box = new ZReverse();
         break;
 
     case BoxColor::Convex:
-        box = new(area) Convex(xstart);
+        box = new Convex();
         break;
 
     case BoxColor::One:
-        box = new(area) One(xstart);
+        box = new One();
         break;
 
     case BoxColor::Five:
-        box = new(area) Five(xstart);
+        box = new Five();
         break;
 
     case BoxColor::Three:
-        box = new(area) Three(xstart);
+        box = new Three();
         break;
 
     case BoxColor::Cross:
-        box = new(area) Cross(xstart);
+        box = new Cross();
         break;
 
     default:
-        box = new(area) Cross(xstart);
+        box = new Cross();
         break;
     }
-
+    box->set_color(c);
+    box->init_move(Dot(xstart, 0));
     return box;
 }
+
 }

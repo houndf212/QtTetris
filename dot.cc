@@ -1,7 +1,7 @@
 #include "dot.h"
 namespace Tetris
 {
-const Dot Dot::rotate(const Dot& center, ClockDirection::Direction clock) const
+Dot Dot::rotate(const Dot& center, ClockDirection clock) const
 {
     Dot v = *this - center;
     int tmp = v.x;
