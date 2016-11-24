@@ -27,12 +27,15 @@ using std::vector;
 class TetrisGroup
 {
 public:
-    enum PosValue
+    enum  class PosValue
     {
         NoValue = 0,
         HasValue,
     };
     TetrisGroup(int width, int height);
+
+    // new api
+    void up_one_line();
 
     //the interface for gui
     bool is_alive() const {return alive;}
@@ -72,11 +75,10 @@ private:
     int my_height;
     std::unique_ptr<Box> cur_box;
     std::unique_ptr<Box> next_box;
-    enum Pos_Type
-    {
-        value_pos = 0,
-        color_pos,
-    };
+
+    constexpr static int  value_pos = 0;
+    constexpr static int  color_pos = 1;
+
 
     typedef vector< vector<int> > matrix_2D;
     typedef vector<matrix_2D> matrix_3D;
@@ -94,6 +96,8 @@ private:
     ClockDirection clock;
 };
 
+void get_rand_line(vector<TetrisGroup::PosValue> &vec, int n);
+
 inline bool TetrisGroup::check_bound(const Dot& d) const
 {
     return 0 <= d.x && d.x < get_width() && 0 <= d.y && d.y < get_height();
@@ -107,9 +111,9 @@ inline TetrisGroup::PosValue TetrisGroup::get_matrix_value(const Dot& d) const
 
 inline void TetrisGroup::set_matrix_value(const Dot& d, PosValue val)
 {
-    assert(val == HasValue || val == NoValue);
+    assert(val == PosValue::HasValue || val == PosValue::NoValue);
     assert(check_bound(d));
-    matrix[value_pos][d.x][d.y] = val;
+    matrix[value_pos][d.x][d.y] = int(val);
 }
 
 inline BoxColor TetrisGroup::get_matrix_color(const Dot& d) const
@@ -127,7 +131,7 @@ inline void TetrisGroup::set_matrix_color(const Dot& d, BoxColor col)
 inline void TetrisGroup::clear_matrix_value(const Dot& d)
 {
     assert(check_bound(d));
-    matrix[value_pos][d.x][d.y] = NoValue;
+    matrix[value_pos][d.x][d.y] = int(PosValue::NoValue);
 }
 
 inline void TetrisGroup::clear_matrix_color(const Dot& d)

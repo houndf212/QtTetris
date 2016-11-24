@@ -5,19 +5,26 @@ namespace Tetris
 
 bool Box::move(const TetrisGroup& t, Dot dirction)
 {
-    for(const Dot* p = begin(); p != end(); ++p)
-    {
-        const Dot next = *p + dirction;
-
-        if (!t.check_bound(next) || t.get_matrix_value(next) == TetrisGroup::HasValue)
-        { return false; }
-    }
+    if (!can_move(t, dirction))
+        return false;
 
     for (Dot* p = begin(); p != end(); ++p)
     {
         *p += dirction;
     }
 
+    return true;
+}
+
+bool Box::can_move(const TetrisGroup& t, Dot dirction) const
+{
+    for(const Dot* p = begin(); p != end(); ++p)
+    {
+        const Dot next = *p + dirction;
+
+        if (!t.check_bound(next) || t.get_matrix_value(next) == TetrisGroup::PosValue::HasValue)
+        { return false; }
+    }
     return true;
 }
 
@@ -33,7 +40,7 @@ void Box::at_bottom(TetrisGroup* t) const
 {
     for (const Dot* p = begin(); p != end(); ++p)
     {
-        t->set_matrix_value(*p, TetrisGroup::HasValue);
+        t->set_matrix_value(*p, TetrisGroup::PosValue::HasValue);
         t->set_matrix_color(*p, color);
     }
 }
@@ -45,7 +52,7 @@ bool Box::rotate(const TetrisGroup& t, Dot center, ClockDirection d)
     {
         *k = p->rotate(center, d);
 
-        if (!t.check_bound(*k) || t.get_matrix_value(*k) == TetrisGroup::HasValue)
+        if (!t.check_bound(*k) || t.get_matrix_value(*k) == TetrisGroup::PosValue::HasValue)
         { return false; }
     }
 
@@ -59,11 +66,11 @@ bool Box::rotate(const TetrisGroup& t, Dot center, ClockDirection d)
     return true;
 }
 
-bool Box::at_new_check(const TetrisGroup& t) /*const*/
+bool Box::at_new_check(const TetrisGroup& t) const
 {
     for (const Dot* p = begin(); p != end(); ++p)
     {
-        if (!t.check_bound(*p) || t.get_matrix_value(*p) == TetrisGroup::HasValue)
+        if (!t.check_bound(*p) || t.get_matrix_value(*p) == TetrisGroup::PosValue::HasValue)
         {
             return false;
         }

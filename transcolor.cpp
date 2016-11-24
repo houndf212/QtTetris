@@ -32,9 +32,9 @@ QColor trans_color(Tetris::BoxColor color)
         col = Qt::darkRed;
         break;
 
-    case Tetris::BoxColor::One:
-        col = Qt::magenta;
-        break;
+//    case Tetris::BoxColor::One:
+//        col = Qt::magenta;
+//        break;
 
     default:
         col = Qt::magenta;

@@ -10,11 +10,42 @@ TetrisGroup::TetrisGroup(int width, int height)
 {
     init();
 }
+
+void TetrisGroup::up_one_line()
+{
+    if (!alive)
+        return;
+
+
+    if (!cur_box->can_move(*this, MoveDirection::Down))
+    {
+        cur_box->move(*this, MoveDirection::Up);
+    }
+
+    vector<TetrisGroup::PosValue> vec(my_width);
+    get_rand_line(vec, my_width-3);
+
+    for (int h=0; h<my_height-1; ++h)
+    {
+        for (int w=0; w<my_width; ++w)
+        {
+            matrix[value_pos][w][h] = matrix[value_pos][w][h+1];
+            matrix[color_pos][w][h] = matrix[color_pos][w][h+1];
+        }
+    }
+
+    for (int w=0; w<my_width; ++w)
+    {
+        matrix[value_pos][w][my_height-1] = int(vec[w]);
+        matrix[color_pos][w][my_height-1] = int(vec[w]);
+    }
+
+}
 void TetrisGroup::init_matrix(int width, int height)
 {
     matrix.resize(2);
 
-    vector<int> vec_val(height, int(NoValue));
+    vector<int> vec_val(height, int(PosValue::NoValue));
     matrix[value_pos] = vector< vector<int> >(width, vec_val);
 
     vector<int> vec_col(height, int(BoxColor::None));
@@ -50,7 +81,7 @@ bool TetrisGroup::is_linefull(int y) const
 {
     for (int x = 0; x != get_width(); ++x)
     {
-        if (get_matrix_value(Dot(x, y)) == NoValue)
+        if (get_matrix_value(Dot(x, y)) == PosValue::NoValue)
         { return false; }
     }
 
@@ -128,4 +159,13 @@ bool TetrisGroup::down_to_bottom(int* lines)
 
     return down(lines);
 }
+
+void get_rand_line(vector<TetrisGroup::PosValue> &vec, int n)
+{
+    assert(int(vec.size()) > n);
+    std::fill_n(vec.begin(), n, TetrisGroup::PosValue::HasValue);
+    std::fill(vec.begin()+n, vec.end(), TetrisGroup::PosValue::NoValue);
+    std::random_shuffle(vec.begin(), vec.end());
+}
+
 }

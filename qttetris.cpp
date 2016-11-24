@@ -136,4 +136,11 @@ void QtTetris::keyPressEvent(QKeyEvent* e)
     {
         update_widget();
     }
+
+    //test
+    if (key == Qt::Key_U)
+    {
+        tetris.up_one_line();
+        update_widget();
+    }
 }

@@ -17,12 +17,12 @@ enum class BoxColor
     Convex,//凸形
     RegularNum = Convex,
     Cross, //十字
-    One,//一点,用于吃掉遇到的第一个value
+//    One,//一点,用于吃掉遇到的第一个value
     //Two,//两点
     Three,//三点
     Five,//五点
     BoxNum = Five,
-    Bomb_one,//一个点炸弹
+//    Bomb_one,//一个点炸弹
 };
 
 enum class ClockDirection

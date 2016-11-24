@@ -132,9 +132,9 @@ Box* get_rand_box(int xstart)
         box = new Convex();
         break;
 
-    case BoxColor::One:
-        box = new One();
-        break;
+//    case BoxColor::One:
+//        box = new One();
+//        break;
 
     case BoxColor::Five:
         box = new Five();
