@@ -12,6 +12,7 @@ namespace Tetris
 *********************************/
 Cross::Cross()
 {
+    location.resize(size);
     location[0] = Dot(0, 0);
 
     location[2] = location[0] + MoveDirection::Down;

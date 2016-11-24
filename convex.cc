@@ -19,7 +19,7 @@ namespace Tetris
 Convex::Convex(int status)
 {
     assert(status == 0);
-
+    location.resize(size);
     if (status == 0)
     {
         location[0] = Dot(0, 0);

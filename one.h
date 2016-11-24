@@ -14,7 +14,6 @@ public:
     virtual void at_bottom(TetrisGroup* t) const;
     virtual bool at_new_check(const TetrisGroup& t) /*const*/;
 private:
-    virtual int get_size() const { return size; }
     static const int size = 1;
     /*mutable*/ bool is_reach;
 };

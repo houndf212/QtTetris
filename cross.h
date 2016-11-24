@@ -10,7 +10,6 @@ public:
     Cross();
     virtual bool turn(const TetrisGroup& t, ClockDirection d) { return false; }
 private:
-    virtual int get_size() const { return size; }
     static const int size = 5;
 };
 }

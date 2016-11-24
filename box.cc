@@ -23,7 +23,6 @@ bool Box::move(const TetrisGroup& t, Dot dirction)
 
 void Box::init_move(Dot d)
 {
-    assert(get_size()<max_size);
     for (Dot* p = begin(); p != end(); ++p)
     {
         *p += d;
@@ -41,13 +40,8 @@ void Box::at_bottom(TetrisGroup* t) const
 
 bool Box::rotate(const TetrisGroup& t, Dot center, ClockDirection d)
 {
-    const int max_size = 8;
-    assert(end() - begin() < max_size);
-
-    Dot tmp[max_size];
-
-
-    for (Dot* p = begin(), *k = tmp ; p != end(); ++p, ++k)
+    std::vector<Dot> tmp(location.size());
+    for (Dot* p = begin(), *k = &tmp[0] ; p != end(); ++p, ++k)
     {
         *k = p->rotate(center, d);
 
@@ -57,7 +51,7 @@ bool Box::rotate(const TetrisGroup& t, Dot center, ClockDirection d)
 
     //旋转后的位置可取，然后赋值
 
-    for (Dot* p = begin(), *q = tmp; p != end(); )
+    for (Dot* p = begin(), *q = &tmp[0]; p != end(); )
     {
         *p++ = *q++;
     }

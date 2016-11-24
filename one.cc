@@ -14,6 +14,7 @@ namespace Tetris
 One::One()
     :is_reach(false)
 {
+    location.resize(size);
     location[0] = Dot(0, 0);
 }
 

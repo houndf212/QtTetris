@@ -19,7 +19,7 @@ status 1 横
 ZReverse::ZReverse(int status)
 {
     assert(status == 0);
-
+    location.resize(size);
     if (status == 0)
     {
         location[0] = Dot(0, 0);

@@ -2,7 +2,7 @@
 #define BOX_H
 #include "define.h"
 #include "dot.h"
-#include <memory>
+#include <vector>
 
 namespace Tetris
 {
@@ -17,8 +17,8 @@ class Box
 {
 public:
     virtual ~Box() {}
-    const Dot* begin()const { return location; }
-    const Dot* end()const  { return location + get_size(); }
+    const Dot* begin()const { return &location[0]; }
+    const Dot* end()const  { return begin() + get_size(); }
     BoxColor get_color() const { return color; }
     void set_color(BoxColor c) { color = c; }
 
@@ -31,19 +31,16 @@ public:
     virtual bool at_new_check(const TetrisGroup& t) /*const*/;
 protected:
     bool rotate(const TetrisGroup& t, Dot center, ClockDirection d);
-    Dot* begin() { return location; }
+    Dot* begin() { return &location[0]; }
     Box(): color(BoxColor::Square) {}
-
 protected:
-//    std::unique_ptr<Dot[], std::default_delete<Dot[]>> location;
-    constexpr static int max_size = 8;
-    Dot location[max_size];
+    std::vector<Dot> location;
 private:
     BoxColor color;
-    virtual int get_size() const = 0;
+    int get_size() const { return location.size(); }
 private:
-    Box(const Box&);
-    Box& operator=(const Box&);
+    Box(const Box&) = delete;
+    Box& operator=(const Box&) = delete;
 };
 //非内置类型，返回const
 const Dot find_most_left(const Box* box);

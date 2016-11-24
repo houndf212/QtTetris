@@ -12,6 +12,7 @@ namespace Tetris
 *********************************/
 Square::Square()
 {
+    location.resize(size);
     location[0] = Dot(0, 0);
 
     location[1] = location[0] + MoveDirection::Right;
