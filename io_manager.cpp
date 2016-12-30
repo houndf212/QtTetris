@@ -10,8 +10,8 @@ void IO_Manager::init()
 {
     QSettings s(kFileName, QSettings::IniFormat);
     int type = s.value("app/type", 1).toInt();
-    QString server = s.value("app/server").toString();
-    quint16 port = s.value("app/port").toUInt();
+    QString server = s.value("app/server", "127.0.0.1").toString();
+    quint16 port = s.value("app/port", 2333).toUInt();
 
     switch(type)
     {
