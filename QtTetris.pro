@@ -29,7 +29,10 @@ SOURCES += main.cpp\
     three.cc \
     cross.cc \
     qttetrisgroupwidget.cpp \
-    qtnextboxwidget.cpp
+    qtnextboxwidget.cpp \
+    io_udp.cpp \
+    io_tcp.cpp \
+    io_manager.cpp
 
 HEADERS  += qttetris.h \
     tetrisgroup.h \
@@ -48,7 +51,11 @@ HEADERS  += qttetris.h \
     three.h \
     cross.h \
     qttetrisgroupwidget.h \
-    qtnextboxwidget.h
+    qtnextboxwidget.h \
+    io_udp.h \
+    io_tcp.h \
+    io_network.h \
+    io_manager.h
 
 OTHER_FILES += \
     app_icon.rc

@@ -1,5 +1,6 @@
 #include "tetrisgroup.h"
 #include "box.h"
+#include <algorithm>
 
 namespace Tetris
 {

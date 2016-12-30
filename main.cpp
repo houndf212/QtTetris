@@ -2,6 +2,7 @@
 #include <ctime>
 #include <cstdlib>
 #include "qttetris.h"
+#include "io_tcp.h"
 
 int main(int argc, char* argv[])
 {

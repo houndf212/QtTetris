@@ -8,15 +8,16 @@
 #include <QDebug>
 #include "qttetris.h"
 #include "box.h"
+#include "io_manager.h"
 
 extern QColor trans_color(Tetris::BoxColor color);
 
 QtTetris::QtTetris(QWidget* parent)
     : QWidget(parent),
-      cur_drop_lines(0),
-      drop_lines_count(0),
-      tetris(10, 16)
+      tetris(10, 18)
 {
+    IO_Manager::init();
+    connect(IO_Manager::get(), &IO_Network::sig_Get, this, &QtTetris::onLines);
     groupwidget = new QtTetrisGroupWidget(tetris, this);
     nextwidget = new QtNextBoxWidget(tetris, this);
 
@@ -39,11 +40,6 @@ QtTetris::QtTetris(QWidget* parent)
     //setPalette(palette);
 }
 
-QtTetris::~QtTetris()
-{
-    qDebug() << "in ~QtTetris";
-}
-
 void QtTetris::update_widget()
 {
     groupwidget->update();
@@ -55,7 +51,7 @@ void QtTetris::time_up()
     bool b = tetris.down(&droplines);
 
     if (droplines != 0)
-    { set_cur_drop_lines(droplines); }
+    { IO_Manager::get()->send(droplines); }
 
 
     //update();
@@ -64,6 +60,16 @@ void QtTetris::time_up()
     if(!b)
     { timer.stop(); }
 }
+
+void QtTetris::onLines(int n)
+{
+    while(n--)
+    {
+        tetris.up_one_line();
+    }
+    update_widget();
+}
+
 void QtTetris::keyPressEvent(QKeyEvent* e)
 {
     if (!tetris.is_alive())
@@ -112,7 +118,7 @@ void QtTetris::keyPressEvent(QKeyEvent* e)
         bool bb = tetris.down_to_bottom(&droplines);
 
         if (droplines != 0)
-        { set_cur_drop_lines(droplines); }
+        { IO_Manager::get()->send(droplines); }
 
         update_widget();
 
@@ -134,13 +140,6 @@ void QtTetris::keyPressEvent(QKeyEvent* e)
 
     if (need_update)
     {
-        update_widget();
-    }
-
-    //test
-    if (key == Qt::Key_U)
-    {
-        tetris.up_one_line();
         update_widget();
     }
 }

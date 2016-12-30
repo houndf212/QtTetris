@@ -2,9 +2,9 @@
 #define TETRISGROUP_H
 #include <vector>
 #include <memory>
-#include <QDebug>
 #include "define.h"
 #include "dot.h"
+#include "box.h"
 
 /*********************************
  0  ...........width(max_x)
@@ -21,7 +21,6 @@
 
 namespace Tetris
 {
-class Box;
 using std::vector;
 
 class TetrisGroup

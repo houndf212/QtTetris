@@ -79,7 +79,7 @@ bool Box::at_new_check(const TetrisGroup& t) const
     return true;
 }
 
-const Dot find_most_left(const Box* box)
+Dot find_most_left(const Box* box)
 {
     const Dot* d = box->begin();
 

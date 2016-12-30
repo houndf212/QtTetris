@@ -44,6 +44,6 @@ private:
     Box& operator=(const Box&) = delete;
 };
 //非内置类型，返回const
-const Dot find_most_left(const Box* box);
+Dot find_most_left(const Box* box);
 }
 #endif//BOX_H
